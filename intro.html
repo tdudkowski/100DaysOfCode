@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>Intro</title>
+ <style>
+  body {
+   position: relative;
+   margin: 0;
+   min-height: 100vh;
+   background-image: url(https://picsum.photos/800/600?image=1055);
+   background-size: cover;
+   background-position: center;
+   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   color: #666;
+  }
+
+  h1 {
+   position: absolute;
+   text-transform: uppercase;
+   left: 50%;
+   top: 2rem;
+   transform: translateX(-50%);
+   transition: .5s;
+   /* overflow: hidden; */
+  }
+
+  button {
+   position: absolute;
+   text-transform: uppercase;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width: 18rem;
+   height: 5rem;
+   font-size: 2rem;
+   font-weight: bold;
+   background-color: rgba(200, 200, 200, .6);
+   border: 2px solid #dfdfdf;
+   transition: opacity 3s, background-color .4s, color .4s;
+   outline: none;
+   user-select: none;
+  }
+
+  button:hover {
+   background-color: rgba(100, 100, 100, .3);
+   color: #ddd;
+   cursor: pointer;
+   border-radius: 5px;
+  }
+
+  .veil {
+   position: absolute;
+   content: '';
+   display: block;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background-color: #333;
+   z-index: 100;
+   opacity: 1;
+   transition: opacity 3s;
+  }
+
+  .veil.removed {
+   opacity: 0;
+   /* height: 0; */
+  }
+ </style>
+</head>
+
+<body>
+ <h1>words, words, words</h1>
+ <button>click me</button>
+ <script>
+  const btn = document.querySelector('button');
+  const h1 = document.querySelector('h1');
+  const h1Array = [...h1.textContent];
+  h1.textContent = '';
+
+  const timeVeil = 3000;
+  let i = 0;
+
+  const typewriter = () => {
+   if (i < h1Array.length) {
+    h1.textContent += h1Array[i];
+    i++;
+    setTimeout(typewriter, timeVeil / h1Array.length);
+   }
+  }
+
+  const showTime = () => {
+   setTimeout(() => {
+    document.querySelector('.veil').style.height = '0';
+    setTimeout(() => btn.style.opacity = 1, timeVeil);
+    typewriter();
+   }, timeVeil);
+  }
+
+  const init = () => {
+   btn.style.opacity = 0;
+   const veil = document.createElement('div');
+   document.body.appendChild(veil);
+   veil.classList.add('veil');
+   setTimeout(() => {
+    veil.classList.add('removed');
+    showTime();
+   }, timeVeil);
+  }
+
+  init();
+ </script>
+</body>
+
+</html>
